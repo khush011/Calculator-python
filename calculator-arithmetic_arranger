@@ -1,0 +1,85 @@
+def arithmetic_arranger(problems,p=False):
+#error hndlings------------------------------------------
+#---------------------------------------------------------
+    if len(problems)>5:
+        return "Error: Too many problems."
+    fn=[];sn=[];op=[];l=[]
+    for i in problems:
+        q=i.split()
+        if(q[1]=='+' or q[1]=="-"):
+            op.append(q[1])
+        else:
+            return "Error: Operator must be '+' or '-'."
+        try:
+            int(q[0]),int(q[2])
+            fn.append(q[0]);sn.append(q[2])
+        except:
+            return "Error: Numbers must only contain digits."
+    for i in range(len(problems)):
+        if(len(fn[i])>4 or len(sn[i])>4):
+            return "Error: Numbers cannot be more than four digits."
+        else:
+            l.append(len(fn[i])-len(sn[i]))
+#----------------------------------------------------------------
+#error hndlings---------------------------------------------------
+    l1=["  "];l2=[];l3=[];l4=[" "];bl=[]
+#----------------------------------------  
+    for i in range(len(problems)):
+        if(l[i]>0):
+            l1.append(fn[i])
+            l2.append(op[i])
+            l2.append(" ")
+            o=l[i]
+            while(o!=0):
+                l2.append(" ");o=o-1
+            l2.append(sn[i])
+            for i in range(len(fn[i])+2):
+                l3.append("-")
+
+        elif(l[i]<0):
+            o=l[i]
+            while(o!=0):
+                l1.append(" ");o=o+1
+            l1.append(fn[i])
+            l2.extend([op[i],' ',sn[i]])
+            for i in range(len(sn[i])+2):
+                l3.append("-")
+            
+        else:
+            l1.append(fn[i])
+            l2.extend([op[i],' ',sn[i]])
+            for i in range(len(sn[i])+2):
+                l3.append("-")
+        l1.append("      ")
+        l2.append("    ")
+        l3.append("    ")
+                 #-----true args-----#   
+    if(p==True):
+        s=-1
+        for i in l:
+            s=s+1
+            if(i>0):
+                bl.append(len(fn[s]))
+            else:
+                bl.append(len(sn[s]))
+        for i in range(len(problems)):
+            if(op[i]=='+'):
+                k=int(fn[i])+int(sn[i])
+            else:
+                k=int(fn[i])-int(sn[i])
+            if(len(str(k))>bl[i]):
+                l4.extend([str(k),'     '])
+            elif(len(str(k))<bl[i]):
+                t=bl[i]-len(str(k))
+                while(t!=0):
+                    l4.append(' ');t=t-1
+                l4.extend([' ',str(k),'     '])
+            else:
+                l4.extend([' ',str(k),'     '])
+        
+        jj=''.join(l1).rstrip()+'\n'+''.join(l2).rstrip()+'\n'+''.join(l3).rstrip()+'\n'+''.join(l4).rstrip()
+        print(bl)
+        return jj
+    arranged_problems=''.join(l1).rstrip()+'\n'+''.join(l2).rstrip()+'\n'+''.join(l3).rstrip()
+
+print(arithmetic_arranger(["32 - 698", "1 - 3801", "45 + 43", "123 + 49"], True))
